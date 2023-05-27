@@ -1,16 +1,23 @@
-import serial
+import machine
 import time
 
-ser = serial.Serial('/dev/ttyUSB0', 115200)  # el primer parametro se reemplaza por el puerto, es necesario conectar el esp32 al pc
-
-temperatures = []
-
+adc = machine.ADC(machine.Pin(36))
 i=0
-while (i<=10):
-    data = ser.readline().decode().strip()
-    if data.startswith("Temperature:"):
-        temperature = float(data.split(":")[1])
-        temperatures.append(temperature)
-        print("Received temperature:", temperature)
-        i=i+1
-        time.sleep(10)
+
+def temp(value):
+    return (value*500)/1024
+
+
+def fahrenheit(celsius):
+    return (celsius * (9/5)) + 32
+
+while i<=15:
+    time.sleep_ms(10000)
+    reading = adc.read()
+
+    celsius_temp = temp(reading)
+    i=i+1
+    fahrenheit_temp = fahrenheit(celsius_temp)
+
+    print("lm35 reading {}\nDegrees Celsius {}\nDegrees Fahrenheit {}".format(
+        reading, celsius_temp, fahrenheit_temp))
