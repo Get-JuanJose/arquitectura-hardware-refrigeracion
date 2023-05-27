@@ -1,29 +1,35 @@
 import pymysql
 
-class database:
+class DataBase:
     def __init__(self):
         self.connection = pymysql.connect(
             host='localhost',
             user= 'root',
-            password='',
-            db='temperature'
+            password='admin',
+            db='temperaturas'
         )
         self.cursor = self.connection.cursor()
-        print("SaS")
+        print("Conectado")
 
     def selectAll(self):
-        sql='select * from temperature'
-
+        sql='select * from temperaturas'
+        file = open("data.csv", "w")
+        file.write("fecha")
+        file.write(",")
+        file.write("temperatura")
         try:
             self.cursor.execute(sql)
             temps = self.cursor.fetchall()
-
+    
             for temp in temps:
-                print("id:", temp[0])
-                print("date:", temp[1])
-                print("temperature:", temp[2])
-        except Exception as e: 
-            raise
+                temps2 = str(temp[1])
+                file.write("\n")
+                file.write(temps2)
+                file.write(",")
+                temps2 = str(temp[2])
+                file.write(temps2)
+        except Exception as e:
+            raise    
 
-database = database()
+database = DataBase() 
 database.selectAll()
