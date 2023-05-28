@@ -31,9 +31,9 @@ class DataBase:
         except Exception as e:
             raise 
 
-    def insertInto(self, id):
-        values = (str(id), '800')
-        sql= "insert into temperaturas (id, date, temperatura) values (%s, curtime(), %s)"
+    def insertInto(self, temp):
+        values = (str(temp))
+        sql= "insert into temperaturas (date, temperatura) values (curtime(), %s)"
         try:
             self.cursor.execute(sql, values)
             self.connection.commit()

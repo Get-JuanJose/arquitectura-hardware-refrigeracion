@@ -1,9 +1,9 @@
-#import machine
-#import time
+import machine
+import time
 import connection as c
 
 database = c.DataBase()
-#adc = machine.ADC(machine.Pin(36))
+adc = machine.ADC(machine.Pin(36))
 i=20
 
 def temp(value):
@@ -14,13 +14,12 @@ def fahrenheit(celsius):
     return (celsius * (9/5)) + 32
 
 while i<=30:
-    #time.sleep_ms(10000)
-    #reading = adc.read()
+    time.sleep_ms(10000)
+    reading = adc.read()
 
-    #celsius_temp = temp(reading)
+    celsius_temp = temp(reading)
     i=i+1
-    database.insertInto(i)
+    database.insertInto(celsius_temp)
     database.selectAllAndWrite()
-    #fahrenheit_temp = fahrenheit(celsius_temp)
-
-    #print("lm35 reading {}\nDegrees Celsius {}\nDegrees Fahrenheit {}".format(reading, celsius_temp, fahrenheit_temp))
+    fahrenheit_temp = fahrenheit(celsius_temp)
+    print("lm35 reading {}\nDegrees Celsius {}\nDegrees Fahrenheit {}".format(reading, celsius_temp, fahrenheit_temp))

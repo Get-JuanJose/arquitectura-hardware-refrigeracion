@@ -20,5 +20,9 @@ def home():
     database.cursor.close()
     return render_template('home.html', data=inserObject)
 
+@app.route('/')
+def graficas():
+    return render_template('home.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
