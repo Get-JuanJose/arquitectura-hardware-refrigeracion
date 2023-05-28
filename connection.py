@@ -11,7 +11,7 @@ class DataBase:
         self.cursor = self.connection.cursor()
         print("Conectado")
 
-    def selectAll(self):
+    def selectAllAndWrite(self):
         sql='select * from temperaturas'
         file = open("data.csv", "w")
         file.write("fecha")
@@ -29,7 +29,13 @@ class DataBase:
                 temps2 = str(temp[2])
                 file.write(temps2)
         except Exception as e:
-            raise    
+            raise 
 
-database = DataBase() 
-database.selectAll()
+    def insertInto(self, id):
+        values = (str(id), '800')
+        sql= "insert into temperaturas (id, date, temperatura) values (%s, curtime(), %s)"
+        try:
+            self.cursor.execute(sql, values)
+            self.connection.commit()
+        except Exception as e:
+            raise   
